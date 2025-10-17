@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Biblioteca Virtual: Editar TCC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #6b0f0d 0%, #8b1614 25%, #c41520 50%, #8b1614 75%, #6b0f0d 100%);
+            transition: all 0.5s ease;
+            padding: 2rem 0;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+        }
+
+        #tsparticles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .crystal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .crystal {
+            position: absolute;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 0 20px rgba(196, 21, 32, 0.3));
+        }
+
+        .crystal-base-left-1 {
+            bottom: -120px;
+            left: -180px;
+            width: 450px;
+            height: 450px;
+            background: linear-gradient(135deg, transparent 0%, rgba(139, 22, 20, 0.15) 30%, transparent 60%), linear-gradient(225deg, #8b1614 0%, #6b0f0d 50%, #4a0908 100%);
+            opacity: 0.75;
+            animation: pulse-glow-faceted 6s ease-in-out infinite;
+            transform: rotate(0deg);
+        }
+
+        .crystal-base-left-2 {
+            bottom: -30px;
+            left: 80px;
+            width: 320px;
+            height: 320px;
+            background: linear-gradient(120deg, rgba(227, 6, 19, 0.2) 0%, transparent 50%), linear-gradient(180deg, #9a1915 0%, #6b0f0d 100%);
+            opacity: 0.65;
+            animation: pulse-glow-faceted 6s ease-in-out infinite 1.5s;
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            transform: rotate(15deg);
+        }
+
+        .crystal-base-left-3 {
+            bottom: 120px;
+            left: -60px;
+            width: 280px;
+            height: 280px;
+            background: linear-gradient(90deg, transparent 0%, rgba(196, 21, 32, 0.25) 40%, transparent 80%), linear-gradient(135deg, #8b1614 0%, #540b0a 100%);
+            opacity: 0.55;
+            animation: pulse-glow-faceted 6s ease-in-out infinite 3s;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            transform: rotate(-20deg);
+        }
+
+        .crystal-base-right-1 {
+            top: -120px;
+            right: -180px;
+            width: 450px;
+            height: 450px;
+            background: linear-gradient(315deg, transparent 0%, rgba(139, 22, 20, 0.15) 30%, transparent 60%), linear-gradient(45deg, #8b1614 0%, #6b0f0d 50%, #4a0908 100%);
+            opacity: 0.75;
+            animation: pulse-glow-faceted 6s ease-in-out infinite 0.8s;
+            clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
+            transform: rotate(0deg);
+        }
+
+        .crystal-base-right-2 {
+            top: -30px;
+            right: 80px;
+            width: 320px;
+            height: 320px;
+            background: linear-gradient(240deg, rgba(227, 6, 19, 0.2) 0%, transparent 50%), linear-gradient(0deg, #9a1915 0%, #6b0f0d 100%);
+            opacity: 0.65;
+            animation: pulse-glow-faceted 6s ease-in-out infinite 2.3s;
+            clip-path: polygon(50% 100%, 100% 0%, 0% 0%);
+            transform: rotate(-15deg);
+        }
+
+        .crystal-base-right-3 {
+            top: 120px;
+            right: -60px;
+            width: 280px;
+            height: 280px;
+            background: linear-gradient(270deg, transparent 0%, rgba(196, 21, 32, 0.25) 40%, transparent 80%), linear-gradient(315deg, #8b1614 0%, #540b0a 100%);
+            opacity: 0.55;
+            animation: pulse-glow-faceted 6s ease-in-out infinite 4s;
+            clip-path: polygon(50% 100%, 0% 0%, 100% 0%);
+            transform: rotate(20deg);
+        }
+
+        @keyframes pulse-glow-faceted {
+
+            0%,
+            100% {
+                opacity: 0.7;
+                filter: brightness(1) drop-shadow(0 0 20px rgba(196, 21, 32, 0.3));
+                transform: rotate(0deg) scale(1);
+            }
+
+            33% {
+                opacity: 0.85;
+                filter: brightness(1.15) drop-shadow(0 0 30px rgba(227, 6, 19, 0.5));
+                transform: rotate(2deg) scale(1.02);
+            }
+
+            66% {
+                opacity: 0.75;
+                filter: brightness(1.25) drop-shadow(0 0 35px rgba(196, 21, 32, 0.6));
+                transform: rotate(-1deg) scale(1.03);
+            }
+        }
+
+        .main-container {
+            position: relative;
+            z-index: 1;
+            width: 90%;
+            max-width: 750px;
+            animation: fadeInUp 0.8s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-header {
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            text-align: center;
+            box-shadow: none;
+            transition: all 0.3s ease;
+            margin-bottom: 0;
+            width: 350px;
+            z-index: 2;
+        }
+
+        body.dark-mode .form-header {
+            background: #1f1f1f;
+        }
+
+        .form-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #333;
+            margin: 0;
+        }
+
+        body.dark-mode .form-header h1 {
+            color: white;
+        }
+
+        .form-box {
+            background: white;
+            padding: 3rem 2.5rem;
+            padding-top: 4rem;
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: -20px;
+        }
+
+        body.dark-mode .form-box {
+            background: #1f1f1f;
+        }
+
+        .welcome-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #333;
+        }
+
+        body.dark-mode .welcome-text {
+            color: white;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        body.dark-mode .form-group label {
+            color: white;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 25px;
+            border: none;
+            background-color: rgba(0, 0, 0, 0.08);
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+            color: #333;
+        }
+
+        body.dark-mode .form-group input {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            background-color: rgba(154, 25, 21, 0.1);
+            box-shadow: 0 0 0 3px rgba(154, 25, 21, 0.2);
+        }
+
+        body.dark-mode .form-group input:focus {
+            background-color: rgba(227, 6, 19, 0.15);
+            box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.3);
+        }
+
+        .tcc-form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem 1.5rem;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .btn-submit {
+            width: 100%;
+            max-width: 300px;
+            padding: 1rem 2rem;
+            background: #9a1915;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 2.5rem auto 0;
+        }
+
+        .btn-submit:hover {
+            background: #c41018;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(154, 25, 21, 0.4);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            right: 30px;
+            bottom: 80px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #9a1915, #e30613);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(154, 25, 21, 0.4);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .theme-icon {
+            width: 30px;
+            height: 30px;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            text-align: center;
+            color: white;
+            z-index: 1;
+        }
+
+        .logo-senai {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 350px;
+            height: auto;
+            z-index: 10;
+        }
+
+        @media(max-width: 600px) {
+            .logo-senai {
+                width: 250px;
+            }
+
+            .form-header {
+                width: 90%;
+            }
+
+            .tcc-form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="tsparticles"></div>
+
+    <div class="crystal-container">
+        <div class="crystal crystal-base-left-1"></div>
+        <div class="crystal crystal-base-left-2"></div>
+        <div class="crystal crystal-base-left-3"></div>
+        <div class="crystal crystal-base-right-1"></div>
+        <div class="crystal crystal-base-right-2"></div>
+        <div class="crystal crystal-base-right-3"></div>
+    </div>
+
+    <img src="Imagem/senai_todo.png" alt="Logo SENAI" class="logo-senai">
+
+    <div class="main-container">
+        <div class="form-header">
+            <h1>Editar TCC</h1>
+        </div>
+        <div class="form-box">
+            <h2 class="welcome-text">Altere os dados do TCC</h2>
+
+            <input type="hidden" id="tccId">
+
+            <div class="tcc-form-grid">
+                <div class="form-group full-width">
+                    <label for="titulo">Título:</label>
+                    <input type="text" id="titulo" placeholder="Título completo do trabalho">
+                </div>
+                <div class="form-group full-width">
+                    <label for="autor">Autores:</label>
+                    <input type="text" id="autor" placeholder="Nomes dos autores">
+                </div>
+                <div class="form-group">
+                    <label for="ano">Ano:</label>
+                    <input type="number" id="ano" placeholder="Ex: 2024" min="1900">
+                </div>
+                <div class="form-group">
+                    <label for="curso">Curso:</label>
+                    <input type="text" id="curso" placeholder="Desenvolvimento de Sistemas">
+                </div>
+                <div class="form-group full-width">
+                    <label for="link">Link (PDF):</label>
+                    <input type="text" id="link" placeholder="URL para o documento PDF">
+                </div>
+            </div>
+
+            <button class="btn-submit" id="salvarAlteracoes">Salvar Alterações</button>
+        </div>
+    </div>
+
+    <div class="theme-toggle" onclick="toggleTheme()">
+        <svg class="theme-icon" id="theme-icon" viewBox="0 0 24 24" fill="white">
+            <path
+                d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z" />
+        </svg>
+    </div>
+
+    <footer>
+        <p>© DEV 2A - SENAI 9.14 | <span id="year"></span></p>
+    </footer>
+
+    <!-- CARREGA A CONFIGURAÇÃO PRIMEIRO -->
+    <script src="config.js"></script>
+
+    <script>
+        // Aguarda a configuração carregar
+        async function inicializarApp() {
+            await new Promise(resolve => setTimeout(resolve, 100));
+
+            const API_URL = window.APP_CONFIG?.API_URL || 'http://10.111.9.47:3009';
+            console.log("✅ Conectando em:", API_URL);
+
+            // Resto do seu código aqui...
+        }
+
+        inicializarApp();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <script src="/config.js"></script>
+
+    <script>
+        // --- SCRIPT DAS PARTÍCULAS ---
+        tsParticles.load("tsparticles", { fpsLimit: 60, particles: { number: { value: 60, density: { enable: true, value_area: 800 } }, color: { value: ["#c41520", "#9a1915", "#e30613"] }, shape: { type: "triangle" }, opacity: { value: 0.6, random: true, anim: { enable: true, speed: 0.8, opacity_min: 0.2, sync: false } }, size: { value: 5, random: true, anim: { enable: true, speed: 3, size_min: 0.1, sync: false } }, links: { enable: false }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, out_mode: "out", bounce: false } }, interactivity: { detect_on: "canvas", events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: true, mode: "push" }, resize: true }, modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 4 } } }, detectRetina: true, });
+
+        // --- SCRIPT DO ANO NO FOOTER ---
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // --- SCRIPT DO FORMULÁRIO DE EDIÇÃO DE TCC ---
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            const results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            const id = getParameterByName("id");
+            if (!id) {
+                alert("ID do TCC não informado na URL.");
+                return;
+            }
+            try {
+                const response = await fetch(`${window.APP_CONFIG.API_URL}/TCCs/${id}`);
+                if (!response.ok) {
+                    alert("Erro ao buscar dados do TCC.");
+                    return;
+                }
+                const TCC = await response.json();
+                document.getElementById("tccId").value = TCC.id;
+                document.getElementById("titulo").value = TCC.titulo;
+                document.getElementById("ano").value = TCC.ano;
+                document.getElementById("curso").value = TCC.curso;
+                document.getElementById("autor").value = TCC.autor;
+                document.getElementById("link").value = TCC.link;
+
+            } catch (error) {
+                console.error("Erro ao carregar os dados do TCC:", error);
+                alert("Erro ao carregar os dados do TCC.");
+            }
+        });
+
+        document.getElementById("salvarAlteracoes").addEventListener("click", async () => {
+            const id = document.getElementById("tccId").value;
+            const titulo = document.getElementById("titulo").value.trim();
+            const ano = document.getElementById("ano").value.trim();
+            const curso = document.getElementById("curso").value.trim();
+            const autor = document.getElementById("autor").value.trim();
+            const link = document.getElementById("link").value.trim();
+
+            if (!titulo || !ano || !curso || !autor || !link) {
+                alert("Preencha todos os campos!");
+                return;
+            }
+            // Validação do ano
+            const anoNumero = parseInt(ano);
+            if (isNaN(anoNumero) || anoNumero < 1900) {
+                alert("Por favor, insira um ano válido!");
+                return;
+            }
+            const dados = { titulo, ano, curso, autor, link };
+
+            try {
+                const response = await fetch(`${window.APP_CONFIG.API_URL}/TCCs/${id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(dados)
+                });
+                if (response.ok) {
+                    alert("TCC atualizado com sucesso!");
+                    window.location.href = "tccs.html";
+                } else {
+                    alert("Erro ao atualizar o TCC.");
+                }
+            } catch (error) {
+                console.error("Erro ao atualizar o TCC:", error);
+                alert("Erro ao atualizar o TCC.");
+            }
+        });
+    </script>
+    <script src="theme-manager.js"></script>
+</body>
+
+</html>
